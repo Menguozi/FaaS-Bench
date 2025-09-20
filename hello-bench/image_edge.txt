@@ -1,0 +1,14 @@
+alpine
+ubuntu
+nginx
+httpd
+mysql
+mariadb
+redis
+mongo
+postgres
+rabbitmq
+registry
+ghost
+node
+python

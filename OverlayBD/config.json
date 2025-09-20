@@ -1,0 +1,22 @@
+{
+    "root": "/var/lib/containerd/io.containerd.snapshotter.v1.overlaybd",
+    "address": "/run/overlaybd-snapshotter/overlaybd.sock",
+    "verbose": "info",
+    "rwMode": "overlayfs",
+    "logReportCaller": false,
+    "autoRemoveDev": false,
+    "mirrorRegistry": [
+        {
+            "host": "192.168.0.18:5000",
+            "insecure": true
+        },
+        {
+            "host": "192.168.0.254:5000",
+            "insecure": true
+        },
+        {
+            "host": "10.17.16.23:5000",
+            "insecure": true
+        }
+    ]
+}

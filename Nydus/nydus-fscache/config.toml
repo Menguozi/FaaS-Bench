@@ -1,0 +1,5 @@
+# The `address` field specifies through which socket snapshotter and containerd communicate.
+[proxy_plugins]
+  [proxy_plugins.nydus]
+    type = "snapshot"
+    address = "/run/containerd-nydus/containerd-nydus-grpc.sock"
