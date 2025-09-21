@@ -11,4 +11,4 @@ sudo rm -rf /var/lib/nerdctl/*
 
 sudo systemctl restart containerd
 
-sudo /usr/bin/containerd-nydus-grpc     --nydusd-config /etc/nydus/nydusd-config.fusedev.json     --log-to-stdout
+sudo containerd-nydus-grpc --nydusd-config /etc/nydus/nydusd-config.fusedev.json --log-to-stdout

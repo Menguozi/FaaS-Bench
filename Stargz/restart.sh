@@ -8,10 +8,11 @@ sudo cp containerd-config.toml /etc/containerd/config.toml
 sudo cp containerd-stargz-grpc-config.toml /etc/containerd-stargz-grpc/config.toml
 
 # wget -O /etc/systemd/system/stargz-snapshotter.service https://raw.githubusercontent.com/containerd/stargz-snapshotter/main/script/config/etc/systemd/system/stargz-snapshotter.service
-sudo cp stargz-snapshotter.service /etc/systemd/system/stargz-snapshotter.service
-systemctl enable --now stargz-snapshotter
-
+# sudo cp stargz-snapshotter.service /etc/systemd/system/stargz-snapshotter.service
+# systemctl enable stargz-snapshotter
+# sudo systemctl start stargz-snapshotters
 sudo systemctl restart stargz-snapshotter
+
 sudo systemctl restart containerd
 sudo systemctl daemon-reload
 

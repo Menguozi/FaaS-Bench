@@ -22,3 +22,5 @@ sudo rm -rf /opt/overlaybd/registry_cache/*
 sudo rm -rf /opt/overlaybd/gzip_cache/*
 sudo systemctl start overlaybd-tcmu
 sudo systemctl start overlaybd-snapshotter
+
+sudo rm -rf /var/lib/nerdctl/1935db59/

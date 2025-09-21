@@ -1,5 +1,6 @@
 # the value of noprefetch will be replaced during benchmarking
 noprefetch = true
+no_background_fetch = true
 debug_address = "/run/containerd-stargz-grpc/debug.sock"
 
 [[resolver.host."192.168.0.18:5000".mirrors]]

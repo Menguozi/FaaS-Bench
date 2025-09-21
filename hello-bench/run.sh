@@ -101,57 +101,57 @@ function convert() {
 
     image=$1
 
-    # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:estargz ..."
-    # sudo nerdctl pull --insecure-registry ${TARGET_REGISTRY}/${image}
-    # echo "sudo nerdctl --insecure-registry image convert \
-    #     --estargz \
-    #     --oci \
-    #     ${TARGET_REGISTRY}/${image} \
-    #     ${TARGET_REGISTRY}/${image}:estargz"
-    # sudo nerdctl --insecure-registry image convert \
-    #     --estargz \
-    #     --oci \
-    #     ${TARGET_REGISTRY}/${image} \
-    #     ${TARGET_REGISTRY}/${image}:estargz
-    # echo "[INFO] Pushing ${TARGET_REGISTRY}/${image}:estargz ..."
-    # echo "sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz"
-    # sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz
+    echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:estargz ..."
+    sudo nerdctl pull --insecure-registry ${TARGET_REGISTRY}/${image}
+    echo "sudo nerdctl --insecure-registry image convert \
+        --estargz \
+        --oci \
+        ${TARGET_REGISTRY}/${image} \
+        ${TARGET_REGISTRY}/${image}:estargz"
+    sudo nerdctl --insecure-registry image convert \
+        --estargz \
+        --oci \
+        ${TARGET_REGISTRY}/${image} \
+        ${TARGET_REGISTRY}/${image}:estargz
+    echo "[INFO] Pushing ${TARGET_REGISTRY}/${image}:estargz ..."
+    echo "sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz"
+    sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz
 
-    # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:nydusv6 ..."
-    # echo "sudo $NYDUSIFY_BIN convert \
-    #     --fs-version 6 \
-    #     --compressor zstd \
-    #     --chunk-size 0x10000 \
-    #     --nydus-image $NYDUS_IMAGE_BIN \
-    #     --source-insecure \
-    #     --target-insecure \
-    #     --source ${TARGET_REGISTRY}/${image} \
-    #     --target ${TARGET_REGISTRY}/${image}:nydusv6 \
-    #     --fs-align-chunk true"
-    # sudo $NYDUSIFY_BIN convert \
-    #     --fs-version 6 \
-    #     --compressor zstd \
-    #     --chunk-size 0x10000 \
-    #     --nydus-image $NYDUS_IMAGE_BIN \
-    #     --source-insecure \
-    #     --target-insecure \
-    #     --source ${TARGET_REGISTRY}/${image} \
-    #     --target ${TARGET_REGISTRY}/${image}:nydusv6 \
-    #     --fs-align-chunk true
+    echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:nydusv6 ..."
+    echo "sudo $NYDUSIFY_BIN convert \
+        --fs-version 6 \
+        --compressor zstd \
+        --chunk-size 0x800000 \
+        --nydus-image $NYDUS_IMAGE_BIN \
+        --source-insecure \
+        --target-insecure \
+        --source ${TARGET_REGISTRY}/${image} \
+        --target ${TARGET_REGISTRY}/${image}:nydusv6 \
+        --fs-align-chunk true"
+    sudo $NYDUSIFY_BIN convert \
+        --fs-version 6 \
+        --compressor zstd \
+        --chunk-size 0x800000 \
+        --nydus-image $NYDUS_IMAGE_BIN \
+        --source-insecure \
+        --target-insecure \
+        --source ${TARGET_REGISTRY}/${image} \
+        --target ${TARGET_REGISTRY}/${image}:nydusv6 \
+        --fs-align-chunk true
 
-    # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:latest_obd ..."
-    # echo "sudo $CONVERTOR_BIN \
-    #     --plain \
-    #     --insecure \
-    #     -r ${TARGET_REGISTRY}/${image} \
-    #     -i latest \
-    #     -o latest_obd"
-    # sudo $CONVERTOR_BIN \
-    #     --plain \
-    #     --insecure \
-    #     -r ${TARGET_REGISTRY}/${image} \
-    #     -i latest \
-    #     -o latest_obd
+    echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:latest_obd ..."
+    echo "sudo $CONVERTOR_BIN \
+        --plain \
+        --insecure \
+        -r ${TARGET_REGISTRY}/${image} \
+        -i latest \
+        -o latest_obd"
+    sudo $CONVERTOR_BIN \
+        --plain \
+        --insecure \
+        -r ${TARGET_REGISTRY}/${image} \
+        -i latest \
+        -o latest_obd
 }
 
 #########################################################
@@ -212,35 +212,37 @@ function run() {
     sudo systemctl start overlaybd-tcmu
     sudo systemctl start overlaybd-snapshotter
 
+    sudo rm -rf /var/lib/nerdctl/1935db59/
+
     sleep 1
 
-    # echo "[INFO] Run hello bench in ${image} ..."
-    # sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
-    # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter overlayfs --op run \
-    #     --registry=${TARGET_REGISTRY} \
-    #     --images ${image} |
-    #     grep "repo")
-    # echo ${result}
-    # echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
-    # nerdctl images
-    # nerdctl ps -a
-    # sync; echo 3 > /proc/sys/vm/drop_caches
-    # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image} ..."
-    # sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
-    
-    echo "[INFO] Run hello bench in ${image}:estargz ..."
-    sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
-    result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter stargz --op run \
+    echo "[INFO] Run hello bench in ${image} ..."
+    sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
+    result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter overlayfs --op run \
         --registry=${TARGET_REGISTRY} \
-        --images ${image}:estargz |
+        --images ${image} |
         grep "repo")
     echo ${result}
     echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
     nerdctl images
     nerdctl ps -a
     sync; echo 3 > /proc/sys/vm/drop_caches
-    echo "[INFO] Remove image ${TARGET_REGISTRY}/${image}:estargz ..."
-    sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
+    echo "[INFO] Remove image ${TARGET_REGISTRY}/${image} ..."
+    sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
+    
+    # echo "[INFO] Run hello bench in ${image}:estargz ..."
+    # sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
+    # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter stargz --op run \
+    #     --registry=${TARGET_REGISTRY} \
+    #     --images ${image}:estargz |
+    #     grep "repo")
+    # echo ${result}
+    # echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
+    # nerdctl images
+    # nerdctl ps -a
+    # sync; echo 3 > /proc/sys/vm/drop_caches
+    # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image}:estargz ..."
+    # sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
 
     # echo "[INFO] Run hello bench in ${image}:nydusv6 ..."
     # sudo nerdctl --insecure-registry --snapshotter nydus rmi -f ${TARGET_REGISTRY}/${image}:nydusv6 >/dev/null 2>&1
