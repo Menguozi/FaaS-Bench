@@ -13,4 +13,4 @@ sudo rmmod cachefiles
 sudo modprobe cachefiles
 
 sudo systemctl restart containerd
-sudo containerd-nydus-grpc --nydusd-config /etc/nydus/nydusd-config.fscache.json --fs-driver fscache --nydusd nydusd --log-to-stdout
+sudo containerd-nydus-grpc --nydusd-config /etc/nydus/nydusd-config.fscache.json --fs-driver fscache --nydusd nydusd --log-to-stdout --log-level info
