@@ -3,7 +3,7 @@
   "config": {
     "backend_type": "registry",
     "backend_config": {
-      "scheme": "https"
+      "scheme": "http"
     },
     "cache_type": "fscache"
   }
