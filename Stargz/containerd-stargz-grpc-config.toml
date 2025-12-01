@@ -14,3 +14,7 @@ insecure = true
 [[resolver.host."10.17.16.23:5000".mirrors]]
 host = "10.17.16.23:5000"
 insecure = true
+
+[[resolver.host."47.91.127.212:5000".mirrors]]
+host = "47.91.127.212:5000"
+insecure = true
