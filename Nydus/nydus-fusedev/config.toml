@@ -2,3 +2,19 @@
   [proxy_plugins.nydus]
     type = "snapshot"
     address = "/run/containerd-nydus/containerd-nydus-grpc.sock"
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+    # 原 registry.k8s.io 映射到阿里云镜像
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.k8s.io"]
+      endpoint = ["https://registry.aliyuncs.com/google_containers"]
+
+    # 如果你还用 docker.io，也可以加上加速器
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+      endpoint = ["https://uceawslv.mirror.aliyuncs.com"]
+
+[plugins."io.containerd.nri.v1.nri"]
+  config_file = "/etc/nri/nri.conf"
+  disable = false
+  plugin_path = "/opt/nri/plugins"
+  socket_path = "/var/run/nri.sock"

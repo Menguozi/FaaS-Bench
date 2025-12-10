@@ -1,0 +1,6 @@
+metadata:
+  name: nginx
+image:
+  image: nginx:latest
+log_path: nginx.0.log
+linux: {}

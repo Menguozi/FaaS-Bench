@@ -101,6 +101,7 @@ function convert() {
 
     image=$1
 
+    # eStargz image convertion
     # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:estargz ..."
     # sudo nerdctl pull --insecure-registry ${TARGET_REGISTRY}/${image}
     # echo "sudo nerdctl --insecure-registry image convert \
@@ -117,6 +118,20 @@ function convert() {
     # echo "sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz"
     # sudo nerdctl --insecure-registry push ${TARGET_REGISTRY}/${image}:estargz
 
+    # Nydus ZRAN image convertion
+    # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:nydus-oci-ref ..."
+    # echo "sudo nydusify convert \
+    #     --oci \
+    #     --oci-ref \
+    #     --source ${TARGET_REGISTRY}/${image} \
+    #     --target ${TARGET_REGISTRY}/${image}:nydus-oci-ref"
+    # sudo nydusify convert \
+    #     --oci \
+    #     --oci-ref \
+    #     --source ${TARGET_REGISTRY}/${image} \
+    #     --target ${TARGET_REGISTRY}/${image}:nydus-oci-ref
+
+    # Nydus v6 image convertion
     # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:nydusv6 ..."
     # echo "sudo $NYDUSIFY_BIN convert \
     #     --fs-version 6 \
@@ -139,6 +154,7 @@ function convert() {
     #     --target ${TARGET_REGISTRY}/${image}:nydusv6 \
     #     --fs-align-chunk true
 
+    # OverlayBD image convertion
     # echo "[INFO] Converting ${TARGET_REGISTRY}/${image} to ${TARGET_REGISTRY}/${image}:latest_obd ..."
     # echo "sudo $CONVERTOR_BIN \
     #     --plain \
@@ -216,20 +232,22 @@ function run() {
 
     sleep 1
 
-    echo "[INFO] Run hello bench in ${image} ..."
-    sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
-    result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter overlayfs --op run \
-        --registry=${TARGET_REGISTRY} \
-        --images ${image} |
-        grep "repo")
-    echo ${result}
-    echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
-    nerdctl images
-    nerdctl ps -a
-    sync; echo 3 > /proc/sys/vm/drop_caches
-    echo "[INFO] Remove image ${TARGET_REGISTRY}/${image} ..."
-    sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
+    # Native OCI image test
+    # echo "[INFO] Run hello bench in ${image} ..."
+    # sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
+    # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter overlayfs --op run \
+    #     --registry=${TARGET_REGISTRY} \
+    #     --images ${image} |
+    #     grep "repo")
+    # echo ${result}
+    # echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
+    # nerdctl images
+    # nerdctl ps -a
+    # sync; echo 3 > /proc/sys/vm/drop_caches
+    # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image} ..."
+    # sudo nerdctl --insecure-registry --snapshotter overlayfs rmi -f ${TARGET_REGISTRY}/${image} >/dev/null 2>&1
     
+    # eStargz image test
     # echo "[INFO] Run hello bench in ${image}:estargz ..."
     # sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
     # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter stargz --op run \
@@ -244,6 +262,22 @@ function run() {
     # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image}:estargz ..."
     # sudo nerdctl --insecure-registry --snapshotter stargz rmi -f ${TARGET_REGISTRY}/${image}:estargz >/dev/null 2>&1
 
+    # Nydus ZRAN image test
+    # echo "[INFO] Run hello bench in ${image}:nydus-oci-ref ..."
+    # sudo nerdctl --insecure-registry --snapshotter nydus rmi -f ${TARGET_REGISTRY}/${image}:nydus-oci-ref >/dev/null 2>&1
+    # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter nydus --op run \
+    #     --registry=${TARGET_REGISTRY} \
+    #     --images ${image}:nydus-oci-ref |
+    #     grep "repo")
+    # echo ${result}
+    # echo ${result} >>${RESULT_DIR}/${RESULT_FILE}.${CURRENT_ROUND}
+    # nerdctl images
+    # nerdctl ps -a
+    # sync; echo 3 > /proc/sys/vm/drop_caches
+    # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image}:nydus-oci-ref ..."
+    # sudo nerdctl --insecure-registry --snapshotter nydus rmi -f ${TARGET_REGISTRY}/${image}:nydus-oci-ref >/dev/null 2>&1
+
+    # Nydus v6 image test
     # echo "[INFO] Run hello bench in ${image}:nydusv6 ..."
     # sudo nerdctl --insecure-registry --snapshotter nydus rmi -f ${TARGET_REGISTRY}/${image}:nydusv6 >/dev/null 2>&1
     # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter nydus --op run \
@@ -258,6 +292,7 @@ function run() {
     # echo "[INFO] Remove image ${TARGET_REGISTRY}/${image}:nydusv6 ..."
     # sudo nerdctl --insecure-registry --snapshotter nydus rmi -f ${TARGET_REGISTRY}/${image}:nydusv6 >/dev/null 2>&1
 
+    # overlayBD image test
     # echo "[INFO] Run hello bench in ${image}:latest_obd ..."
     # sudo nerdctl --insecure-registry --snapshotter overlaybd rmi -f ${TARGET_REGISTRY}/${image}:latest_obd >/dev/null 2>&1
     # result=$(sudo ./hello.py --engine nerdctl --insecure-registry --snapshotter overlaybd --op run \

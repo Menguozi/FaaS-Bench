@@ -3,3 +3,9 @@
   [proxy_plugins.nydus]
     type = "snapshot"
     address = "/run/containerd-nydus/containerd-nydus-grpc.sock"
+
+[plugins."io.containerd.nri.v1.nri"]
+  config_file = "/etc/nri/nri.conf"
+  disable = false
+  plugin_path = "/opt/nri/plugins"
+  socket_path = "/var/run/nri.sock"
